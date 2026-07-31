@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+/* CSS RESET */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* GENERAL STYLES */
+body,
+button {
+    font-family: "Space Mono", monospace;
+}
+
+button {
+    border: none;
+}
+
+/* CALCULATOR STYLES */
+.calculator {
+    background-color: rgb(96, 116, 86);
+    border: 2px solid rgb(123, 37, 37);
+    border-radius: 8px;
+    padding: 12px;
+    margin: auto;
+    margin-top: 16px;
+    max-width: 400px;
+}
+
+.calculator__display {
+    background-color: rgb(238, 224, 204);
+    border-radius: 8px;
+    color: rgb(123, 37, 37);
+    font-weight: bold;
+    font-size: 24px;
+    height: 100px;
+    padding: 8px;
+    text-align: right;
+}
+
+.calculator__row {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.calculator__button {
+    border-radius: 8px;
+    flex: 0 0 calc(25% - (3/4 * 8px));
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.calculator__button-lg {
+    border-radius: 8px;
+    flex: 0 0 calc(50% - (1/2 * 8px));
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.calculator__button,
+.calculator__button-lg {
+    height: 50px;
+}
+
+.operand {
+    background-color: rgb(238, 224, 204);
+    color: rgb(123, 37, 37);
+}
+
+.operand:active {
+    background-color: rgb(186, 106, 76);
+    color: rgb(238, 224, 204);
+}
+
+.operand:disabled {
+    pointer-events: none;
+}
+
+.operator {
+    background-color: rgb(123, 37, 37);
+    color: rgb(238, 224, 204);
+}
+
+.operator:active {
+    background-color: rgb(186, 106, 76);
+}
