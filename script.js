@@ -14,13 +14,19 @@ const reset = () => {
 const backspace = () => {
     if (postOp) return;
 
+    let deletedChar;
+
     if (operator) {
+        deletedChar = secondOperand.slice(secondOperand.length - 1, secondOperand.length);
         secondOperand = secondOperand.slice(0, secondOperand.length - 1);
         updateDisplay(secondOperand);
     } else {
+        deletedChar = firstOperand.slice(firstOperand.length - 1, firstOperand.length);
         firstOperand = firstOperand.slice(0, firstOperand.length - 1);
         updateDisplay(firstOperand);
     }
+
+    if(deletedChar === ".") decimalButton.disabled = false;
 }
 
 const add = (x, y) => x + y;
