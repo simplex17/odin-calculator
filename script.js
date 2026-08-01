@@ -17,12 +17,12 @@ const backspace = () => {
     let deletedChar;
 
     if (operator) {
-        deletedChar = secondOperand.slice(secondOperand.length - 1, secondOperand.length);
-        secondOperand = secondOperand.slice(0, secondOperand.length - 1);
+        deletedChar = secondOperand.at(-1);
+        secondOperand = secondOperand.slice(0, -1);
         updateDisplay(secondOperand);
     } else {
-        deletedChar = firstOperand.slice(firstOperand.length - 1, firstOperand.length);
-        firstOperand = firstOperand.slice(0, firstOperand.length - 1);
+        deletedChar = firstOperand.at(-1);
+        firstOperand = firstOperand.slice(0, -1);
         updateDisplay(firstOperand);
     }
 
@@ -63,9 +63,6 @@ const operate = () => {
             break;
 
     }
-
-    if (result.toString().includes(".")) result = result.toFixed(2);
-    else result = result.toString();
 
     updateDisplay(result);
     secondOperand = operator = "";
@@ -110,14 +107,14 @@ const updateOperation = (val) => {
 const updateDisplay = (val) => { display.textContent = val; }
 
 const evalInput = (val) => {
-    const operands = "1234567890.";
+    const numbers = "1234567890.";
     const operators = "/*-+";
 
     if (val === 'C' || val === 'c') reset();
     else if (val === '⌫' || val === 'Backspace') backspace();
     else if (operators.includes(val)) updateOperation(val);
     else if (val === "=") operate();
-    else if (operands.includes(val)) updateValue(val);
+    else if (numbers.includes(val)) updateValue(val);
 }
 
 buttons.forEach(btn => {
