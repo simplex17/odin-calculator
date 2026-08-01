@@ -69,13 +69,9 @@ button {
     color: rgb(123, 37, 37);
 }
 
-.operand:active {
+.operand:enabled:active {
     background-color: rgb(186, 106, 76);
     color: rgb(238, 224, 204);
-}
-
-.operand:disabled {
-    pointer-events: none;
 }
 
 .operator {

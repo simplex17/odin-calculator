@@ -26,7 +26,7 @@ const backspace = () => {
         updateDisplay(firstOperand);
     }
 
-    if(deletedChar === ".") decimalButton.disabled = false;
+    if (deletedChar === ".") decimalButton.disabled = false;
 }
 
 const add = (x, y) => x + y;
@@ -78,6 +78,10 @@ const updateValue = (val) => {
         firstOperand = "";
         postOp = false;
         decimalButton.disabled = false;
+    }
+
+    if (val === "." && decimalButton.disabled) {
+        return;
     }
 
     if (operator) {
