@@ -13,25 +13,17 @@ const reset = () => {
 }
 
 const backspace = () => {
-    if (postOp || display.textContent === "0") return;
-
     let deletedChar;
 
     if (operator) {
+        if (postOp || secondOperand === "0") return;
         deletedChar = secondOperand.at(-1);
-        if (secondOperand.slice(0, -1)) {
-            secondOperand = secondOperand.slice(0, -1);
-        } else {
-            secondOperand = "0";
-        }
+        secondOperand = secondOperand.slice(0, -1);
         updateDisplay(secondOperand);
     } else {
+        if (postOp || firstOperand === "0") return;
         deletedChar = firstOperand.at(-1);
-        if (firstOperand.slice(0, -1)) {
-            firstOperand = firstOperand.slice(0, -1);
-        } else {
-            firstOperand = "0";
-        }
+        firstOperand = firstOperand.slice(0, -1);
         updateDisplay(firstOperand);
     }
 
@@ -45,30 +37,30 @@ const divide = (x, y) => x / y;
 const operate = () => {
     if (!(firstOperand && secondOperand && operator)) return;
 
-    firstOperand = parseFloat(firstOperand);
-    secondOperand = parseFloat(secondOperand);
+    const x = parseFloat(firstOperand);
+    const y = parseFloat(secondOperand);
     let result;
 
     switch (operator) {
         case "+":
-            result = add(firstOperand, secondOperand);
+            result = add(x, y);
             break;
 
         case "-":
-            result = subtract(firstOperand, secondOperand);
+            result = subtract(x, y);
             break;
 
         case "*":
-            result = multiply(firstOperand, secondOperand);
+            result = multiply(x, y);
             break;
 
         case "/":
-            if (secondOperand === 0) {
+            if (y === 0) {
                 reset();
                 updateDisplay("Can't divide by zero");
                 return;
             }
-            result = divide(firstOperand, secondOperand);
+            result = divide(x, y);
             break;
 
     }
@@ -89,14 +81,11 @@ const updateValue = (val) => {
         postOp = false;
     }
 
-    if (val === "." && decimalButton.disabled) {
-        return;
-    }
-
     if (operator) {
         if (secondOperand === "0") {
             if (val !== "0") {
                 if (val === ".") {
+                    if (secondOperand.includes(".")) return;
                     secondOperand += val;
                 } else {
                     secondOperand = val;
@@ -111,6 +100,7 @@ const updateValue = (val) => {
         if (firstOperand === "0") {
             if (val !== "0") {
                 if (val === ".") {
+                    if (firstOperand.includes(".")) return;
                     firstOperand += val;
                 } else {
                     firstOperand = val;
@@ -125,10 +115,9 @@ const updateValue = (val) => {
 }
 
 const updateOperation = (val) => {
-    if (!firstOperand) return;
-
     if (secondOperand && operator) {
         operate();
+        postOp = false;
     }
 
     operator = val;
