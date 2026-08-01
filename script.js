@@ -1,28 +1,37 @@
-let [firstOperand, secondOperand, operator] = ["", "", ""];
+let [firstOperand, secondOperand, operator] = ["0", "0", ""];
 let postOp = false;
 const display = document.querySelector(".calculator__display");
 const buttons = document.querySelectorAll(".calculator__button, .calculator__button-lg");
 let decimalButton;
 
 const reset = () => {
-    firstOperand = secondOperand = operator = "";
+    firstOperand = secondOperand = "0";
+    operator = "";
     postOp = false;
     decimalButton.disabled = false;
-    updateDisplay("");
+    updateDisplay("0");
 }
 
 const backspace = () => {
-    if (postOp) return;
+    if (postOp || display.textContent === "0") return;
 
     let deletedChar;
 
     if (operator) {
         deletedChar = secondOperand.at(-1);
-        secondOperand = secondOperand.slice(0, -1);
+        if (secondOperand.slice(0, -1)) {
+            secondOperand = secondOperand.slice(0, -1);
+        } else {
+            secondOperand = "0";
+        }
         updateDisplay(secondOperand);
     } else {
         deletedChar = firstOperand.at(-1);
-        firstOperand = firstOperand.slice(0, -1);
+        if (firstOperand.slice(0, -1)) {
+            firstOperand = firstOperand.slice(0, -1);
+        } else {
+            firstOperand = "0";
+        }
         updateDisplay(firstOperand);
     }
 
@@ -64,17 +73,20 @@ const operate = () => {
 
     }
 
+    if (result.toString().includes(".")) result = result.toFixed(2);
+    else result = result.toString();
+
     updateDisplay(result);
     secondOperand = operator = "";
     firstOperand = result;
     postOp = true;
+    decimalButton.disabled = false;
 }
 
 const updateValue = (val) => {
     if (!operator && postOp) {
-        firstOperand = "";
+        firstOperand = "0";
         postOp = false;
-        decimalButton.disabled = false;
     }
 
     if (val === "." && decimalButton.disabled) {
@@ -82,13 +94,33 @@ const updateValue = (val) => {
     }
 
     if (operator) {
-        secondOperand += val;
+        if (secondOperand === "0") {
+            if (val !== "0") {
+                if (val === ".") {
+                    secondOperand += val;
+                } else {
+                    secondOperand = val;
+                }
+            }
+        } else {
+            secondOperand += val;
+        }
+        if (val === ".") decimalButton.disabled = true;
         updateDisplay(secondOperand);
-        if (val === ".") decimalButton.disabled = true;
     } else {
-        firstOperand += val;
-        updateDisplay(firstOperand);
+        if (firstOperand === "0") {
+            if (val !== "0") {
+                if (val === ".") {
+                    firstOperand += val;
+                } else {
+                    firstOperand = val;
+                }
+            }
+        } else {
+            firstOperand += val;
+        }
         if (val === ".") decimalButton.disabled = true;
+        updateDisplay(firstOperand);
     }
 }
 
@@ -129,3 +161,5 @@ document.addEventListener('keydown', (e) => {
     const val = e.key;
     evalInput(val);
 });
+
+updateDisplay("0");
