@@ -1,1 +1,1 @@
-# odin-calculator
+Calculator project for TOPS.
